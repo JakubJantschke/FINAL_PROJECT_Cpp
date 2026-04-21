@@ -20,7 +20,7 @@ int main() {
     //VOLBA POSTAVY
     while (potvrzeniClassy == false) {
         cout << "=== VITEJTE V TEXTOVEM RPG ===" << endl;
-        cout << "Vyberte si svoji classu:" << endl;
+        cout << "Vyberte si svoji classu (tridu):" << endl;
         cout << "1) Paladin" << endl;
         cout << "2) Mag" << endl;
         cout << "3) Lovec" << endl;
