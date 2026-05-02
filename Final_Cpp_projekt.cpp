@@ -97,7 +97,8 @@ void zkontrolujLevel(int &lvl, int &xp, int &mHP, int &aHP, int &u) {
 
 // MAIN
 int main() {
-
+    srand(time(0));
+    uvodniGrafika();
 
 
     return 0;
