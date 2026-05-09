@@ -30,16 +30,16 @@ int secti(int a, int b) {
     return a + b;
 }
 
-// FUNKCE PRO HL¡äKY MONSTER (VOID)
-// Tato funkce vybere n·hodnou hl·öku podle typu monstra
+// FUNKCE PRO HL√Å≈†KY MONSTER (VOID)
+// Tato funkce vybere n√°hodnou hl√°≈°ku podle typu monstra
 void hradlaMonster(string jmeno) {
-    int r = rand() % 3; // n·hodnÈ ËÌslo 0-2
+    int r = rand() % 3; // n√°hodn√© √®√≠slo 0-2
     cout << jmeno << " krici: ";
 
     if (jmeno == "Vlk" || jmeno == "Divoke prase") {
         if (r == 0) cout << "\"Vrrr... citim tvou krev!\"" << endl;
         else if (r == 1) cout << "\"Haf! Tohle bude snadna korist.\"" << endl;
-        else cout << "*Hladove vrËÌ a cenÌ zuby*" << endl;
+        else cout << "*Hladove vr√®√≠ a cen√≠ zuby*" << endl;
     }
     else if (jmeno == "Skret" || jmeno == "Loupeznik") {
         if (r == 0) cout << "\"Dej sem zlato, nebo te rozsekam!\"" << endl;
@@ -52,18 +52,18 @@ void hradlaMonster(string jmeno) {
         else cout << "\"Krupni, krupni, tvoje kosti jsou jako susenky!\"" << endl;
     }
     else if (jmeno == "Kostlivec" || jmeno == "Duch") {
-        if (r == 0) cout << "\"Prid·ö se k nasi mrtve armade...\"" << endl;
+        if (r == 0) cout << "\"Prid√°≈° se k nasi mrtve armade...\"" << endl;
         else if (r == 1) cout << "\"Citim teplo tveho zivota... chci ho!\"" << endl;
-        else cout << "*ChrastÌ kostmi a kvÌlÌ*" << endl;
+        else cout << "*Chrast√≠ kostmi a kv√≠l√≠*" << endl;
     }
     else if (jmeno == "Temny Mag") {
-        if (r == 0) cout << "\"Tva duöe bude ma!\"" << endl;
+        if (r == 0) cout << "\"Tva du≈°e bude ma!\"" << endl;
         else if (r == 1) cout << "\"Neznas skutecnou silu temnoty!\"" << endl;
         else cout << "\"Tvoje magie je proti me jen hracka.\"" << endl;
     }
     else if (jmeno == "PYROCOIL") {
         if (r == 0) cout << "\"VSECHNO SHORI V MEM PLAMENI!\"" << endl;
-        else if (r == 1) cout << "\"Jsi jen prach pod m˝mi paznehty!\"" << endl;
+        else if (r == 1) cout << "\"Jsi jen prach pod m√Ωmi paznehty!\"" << endl;
         else cout << "\"KONEC TVE CESTY JE TADY!\"" << endl;
     }
 }
@@ -71,8 +71,8 @@ void hradlaMonster(string jmeno) {
 // FUNKCE PRO VYPIS STAVU (VOID)
 void status(string jmeno, int hpM, int hpA, int mana) {
     cout << "\n------------------------------------------------" << endl;
-    cout << " NEPÿÕTEL: " << jmeno << " [HP: " << hpM << "]" << endl;
-    cout << " HR¡»: [HP: " << hpA << " | MANA: " << mana << "]" << endl;
+    cout << " NEP√ò√çTEL: " << jmeno << " [HP: " << hpM << "]" << endl;
+    cout << " HR√Å√à: [HP: " << hpA << " | MANA: " << mana << "]" << endl;
     cout << "------------------------------------------------" << endl;
 }
 
@@ -100,6 +100,58 @@ int main() {
     srand(time(0));
     uvodniGrafika();
 
+    string trida = "";
+    int mHP, aHP, mMana, aMana, zlato = 40, lvl = 1, xp = 0, utok = 0, v;
+
+    // V√ùBƒöR POSTAVY POMOC√ç SWITCH-CASE (Skoƒç√≠ zpƒõt na zaƒç√°tek while)
+    bool vybrano = false;
+    while (!vybrano) {
+        cout << "=== V√ùBƒöR HRDINY ===\n1) Rytir\n2) Mag\n3) Lovec\nVolba: ";
+        cin >> v;
+
+        switch (v) {
+            case 1:
+                trida = "Rytir"; mHP = 60; mMana = 10; utok = 7;
+                break;
+            case 2:
+                trida = "Mag"; mHP = 30; mMana = 60; utok = 4;
+                break;
+            case 3:
+                trida = "Lovec"; mHP = 45; mMana = 30; utok = 10;
+                break;
+            default:
+                cout << "Neplatna volba, zkus to znovu." << endl;
+                continue;
+        }
+
+        cout << "Zvolen " << trida << ". OK? (1-ano): ";
+        cin >> v;
+        if (v == 1) vybrano = true;
+    }
+    aHP = mHP; aMana = mMana;
+
+    // VESNICE POMOC√ç SWITCH-CASE
+    cout << "\n[V] OSADA POCATKU" << endl;
+    bool shop = true;
+    while (shop) {
+        cout << "Gold: " << zlato << " | 1) Heal(5g), 2) Utok+2(20g), 3) J√≠t pryƒç: ";
+        cin >> v;
+
+        switch (v) {
+            case 1:
+                if (maDostZlata(zlato, 5)) { aHP = mHP; zlato -= 5; cout << "Vyleceno!" << endl; }
+                break;
+            case 2:
+                if (maDostZlata(zlato, 20)) { utok = secti(utok, 2); zlato -= 20; cout << "Utok zvysen!" << endl; }
+                break;
+            case 3:
+                shop = false;
+                break;
+            default:
+                cout << "Neznamy prikaz." << endl;
+                break;
+        }
+    }
 
     return 0;
 }
