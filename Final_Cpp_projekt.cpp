@@ -6,22 +6,23 @@ using namespace std;
 
 // funkce pro vykresleni uvodniho loga
 void uvodniGrafika() {
-    cout << "########################################################" << endl;
-    cout << "#                                                      #" << endl;
-    cout << "#    _______  __   __  ______    _______  _______      #" << endl;
-    cout << "#   |       ||  | |  ||    _ |  |       ||       |     #" << endl;
-    cout << "#   |    _  ||  |_|  ||   | ||  |   _   ||_     _|     #" << endl;
-    cout << "#   |   |_| ||       ||   |_||_ |  | |  |  |   |       #" << endl;
-    cout << "#   |    ___||_     _||    __  ||  |_|  |  |   |       #" << endl;
-    cout << "#   |   |      |   |  |   |  | ||       |  |   |       #" << endl;
-    cout << "#   |___|      |___|  |___|  |_||_______|  |___|       #" << endl;
-    cout << "#                                                      #" << endl;
-    cout << "#             LEGENDA O OHNIVEM DRAKOVI                #" << endl;
-    cout << "#                                                      #" << endl;
-    cout << "########################################################" << endl;
+    cout << "========================================================================" << endl;
+    cout << "  __  __     ____    _____     ____    _   _    _____   _    _    _____ " << endl;
+    cout << " |  \\/  |   / __ \\  |  __ \\   / __ \\  | \\ | |  |_   _| | |  | |  / ____|" << endl;
+    cout << " | \\  / |  | |  | | | |__) | | |  | | |  \\| |    | |   | |  | | | |     " << endl;
+    cout << " | |\\/| |  | |  | | |  _  /  | |  | | | . ` |    | |   | |  | | | |     " << endl;
+    cout << " | |  | |  | |__| | | | \\ \\  | |__| | | |\\  |   _| |_  | |__| | | |____ " << endl;
+    cout << " |_|  |_|   \\____/  |_|  \\_\\  \\____/  |_| \\_|  |_____|  \\____/   \\_____|" << endl;
+    cout << "========================================================================" << endl;
+    cout << "                   L E G E N D A   O   P Y R O C O I L O V I            " << endl;
+    cout << "========================================================================" << endl;
     cout << endl;
-    cout << "Vitej, hrdino! Tva cesta za porazkou Pyrocoila zacina..." << endl;
-    cout << "Stiskni ENTER pro vstup do sveta!" << endl;
+    cout << "       Vitej v kralovstvi Ignis, hrdino! Tva dračí odysea zacina.       " << endl;
+    cout << "       Dokazes porazit Pyrocoila, nebo skoncis v jeho plamenech?       " << endl;
+    cout << endl;
+    cout << "========================================================================" << endl;
+    cout << "         >>> STISKNI ENTER PRO ZACATEK DOBRODRUZSTVI <<< " << endl;
+    cout << "========================================================================" << endl;
     cin.get(); // Pocka na stisk klavesy
 }
 
@@ -33,7 +34,7 @@ int secti(int a, int b) {
 // FUNKCE PRO HLÁŠKY MONSTER (VOID)
 // Tato funkce vybere náhodnou hlášku podle typu monstra
 void hradlaMonster(string jmeno) {
-    int r = rand() % 3; // náhodné èíslo 0-2
+    int r = rand() % 3; // náhodné číslo 0-2
     cout << jmeno << " krici: ";
 
     if (jmeno == "Vlk" || jmeno == "Divoke prase") {
@@ -130,44 +131,105 @@ int main() {
     }
     aHP = mHP; aMana = mMana;
 
-    // VESNICE POMOCÍ SWITCH-CASE
-    cout << "\n[V] OSADA POCATKU" << endl;
+    // --- ROZVINUTÁ VESNICE POMOCÍ SWITCH-CASE ---
+    cout << "\n========================================================================" << endl;
+    cout << "[V] OSADA POCATKU - Posledni bezpecne utociste na upati Ohnive hory." << endl;
+    cout << "Kolem tebe chodi vystraseni vesnicane a mistni kovar kuje posledni zbrane." << endl;
+    cout << "Mas s sebou nejake usetrene zlate mince. Vyuzij je moudre, nez odejdes!" << endl;
+    cout << "========================================================================" << endl;
+
     bool shop = true;
     while (shop) {
-        cout << "Gold: " << zlato << " | 1) Heal(5g), 2) Utok+2(20g), 3) Jít pryč: ";
+        cout << "\n--- MISTNI TRH (Tvoje zlato: " << zlato << "g | Utok: " << utok << " | HP: " << aHP << "/" << mHP << ") ---" << endl;
+        cout << "1) Elixir zivota (Plne vyleceni) ---------- [5g]\n";
+        cout << "2) Nabrousit zbran / Novy ritualni amulet (+2 utok) -- [20g]\n";
+        cout << "3) OPUSTIT VESNICI A VYKROCIT DO NEBEZPECI\n";
+        cout << "Tva volba: ";
         cin >> v;
 
         switch (v) {
             case 1:
-                if (maDostZlata(zlato, 5)) { aHP = mHP; zlato -= 5; cout << "Vyleceno!" << endl; }
+                if (maDostZlata(zlato, 5)) {
+                    aHP = mHP;
+                    zlato -= 5;
+                    cout << "\n>>> Vypil jsi rudy elixir. Citis, jak se ti hoji vsechny rany!" << endl;
+                }
                 break;
             case 2:
-                if (maDostZlata(zlato, 20)) { utok = secti(utok, 2); zlato -= 20; cout << "Utok zvysen!" << endl; }
+                if (maDostZlata(zlato, 20)) {
+                    utok = secti(utok, 2);
+                    zlato -= 20;
+                    cout << "\n>>> Tve zbrane nyni zari ostrosti a magickou moci!" << endl;
+                }
                 break;
             case 3:
+                cout << "\nZabalil jsi sve veci, vesnicane ti pozehnali a brana osady se za tebou zavira..." << endl;
                 shop = false;
                 break;
             default:
-                cout << "Neznamy prikaz." << endl;
+                cout << "\n[!] Kovar ti nerozumi. Vyber si z nabidky 1, 2 nebo 3." << endl;
                 break;
         }
     }
 
+    cout << "\nStiskni Enter pro vstup do Temneho lesa...";
+
     // SOUBOJE
 
-    // 2. MONSTRUM (50% šance na zlato)
+    // 2. MONSTRUM: VLK
+    cout << "\n========================================================================" << endl;
+    cout << "[!] Vstoupil jsi do hlubokeho Temneho lesa. Mlha se vali mezi stromy." << endl;
+    cout << "Najednou ze kroví vyskoci obrovsky Vlk s rudyma ocima, nakrazeny Pyrocoilem!" << endl;
+    cout << "========================================================================" << endl;
+
     int m1 = 20;
     while (m1 > 0 && aHP > 0) {
-        status("Vlk", m1, aHP, aMana);
+        status("Vlk v ruji", m1, aHP, aMana);
         hradlaMonster("Vlk");
-        cout << "1) Utok, 2) Kouzlo(5m): "; cin >> v;
-        if (v == 1) m1 -= utok;
-        else if (v == 2 && aMana >= 5) { m1 -= secti(utok, 10); aMana -= 5; }
-        if (m1 > 0) aHP -= 6;
+        cout << "Tve moznosti: 1) Utok mecem/lukem, 2) Pouzit kouzlo (Stoji 5 many): ";
+        cin >> v;
+
+        if (v == 1) {
+            m1 -= utok;
+            cout << "Zasahol jsi Vlka za " << utok << " poskozeni!" << endl;
+        }
+        else if (v == 2 && aMana >= 5) {
+            int kDMG = secti(utok, 10);
+            m1 -= kDMG;
+            aMana -= 5;
+            cout << "Seslal jsi magicky vypad a popalil Vlka za " << kDMG << " poskozeni!" << endl;
+        }
+        else if (v == 2 && aMana < 5) {
+            cout << "Chybi ti mana! Tvuj chaby pokus o magii selhal a ztratil jsi tah!" << endl;
+        }
+
+        if (m1 > 0) {
+            aHP -= 6;
+            cout << "Vlk vyrazil vpred a kousl te do nohy! Ztratil jsi 6 HP." << endl;
+        }
     }
-    if (aHP <= 0) return 0;
-    xp += 30; if (rand() % 2 == 0) zlato += 15;
+
+    // GAME OVER PRO VLKA
+    if (aHP <= 0) {
+        cout << "\n########################################################################" << endl;
+        cout << " GAME OVER - TVOJE CESTA SKONCILA" << endl;
+        cout << " Vlk te srazil k zemi a prokousl ti hrdlo. Tva krev zbarvila lesni mech." << endl;
+        cout << " Pyrocoil stale zije a kralovstvi Ignis zustane navzdy v plamenech." << endl;
+        cout << "########################################################################" << endl;
+        return 0;
+    }
+
+    cout << "\n>>> Vlk pada mrtev k zemi! Ziskavas zkusenosti.";
+    xp += 30;
+    if (rand() % 2 == 0) {
+        zlato += 15;
+        cout << " V kozichu vlka jsi nasel odhozeny pytlik s 15 zlataky!";
+    }
+    cout << endl;
     zkontrolujLevel(lvl, xp, mHP, aHP, utok);
+
+    cout << "\nStiskni Enter pro pokracovani hloubeji do prusmyku...";
+
 
     // 3. SOUBOJ SE 3 MONSTRY
     int h1 = 15, h2 = 15, h3 = 15;
@@ -189,7 +251,7 @@ int main() {
     int mb1 = 100;
     cout << "\n[MB] STRAZCE MOSTU" << endl;
     while (mb1 > 0 && aHP > 0) {
-        aHP -= 10; cout << "Troll te prastil palici jako prvni!" << endl;
+        aHP -= 10; cout << "Troll te prastil palici jako prvni, PROHRAL JSI!" << endl;
         if (aHP <= 0) break;
         status("Troll", mb1, aHP, aMana);
         hradlaMonster("Troll");
@@ -200,6 +262,38 @@ int main() {
     if (aHP <= 0) return 0;
     xp += 100; zlato += 100;
     zkontrolujLevel(lvl, xp, mHP, aHP, utok);
+
+    // 5. FINAL BOSS: PYROCOIL
+    int hb = 600; int k = 1; int horeni = 0;
+    cout << "\n!!! [HB] FINALNI SOUBOJ: PYROCOIL !!!" << endl;
+    while (hb > 0 && aHP > 0) {
+        cout << "\nKolo: " << k;
+        int dmgBosse = 15;
+        if (horeni > 0) dmgBosse += 3;
+        else { horeni = 2; dmgBosse += 2; }
+
+        aHP -= dmgBosse;
+        cout << "\nPyrocoil te spaluje za " << dmgBosse << "!" << endl;
+
+        if (k % 4 == 0) {
+            cout << "PYROCOIL PRETEKA OHNEM A EXPLOZUDE!" << endl;
+            aHP -= 15; hb -= 20;
+        }
+
+        if (aHP <= 0) break;
+
+        status("PYROCOIL", hb, aHP, aMana);
+        hradlaMonster("PYROCOIL");
+        cout << "1) Utok, 2) Mega Heal(15m): "; cin >> v;
+        if (v == 1) hb -= utok;
+        else if (v == 2 && aMana >= 15) { aHP = secti(aHP, 60); if(aHP > mHP) aHP = mHP; aMana -= 15; }
+
+        if (horeni > 0) horeni--;
+        k++;
+    }
+
+    if (aHP > 0) cout << "\nZVITEZIL JSI NAD PYROCOILEM!" << endl;
+    else cout << "\nZemrel jsi v plamenech..." << endl;
 
     return 0;
 }
