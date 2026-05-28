@@ -248,10 +248,10 @@ int main() {
     zkontrolujLevel(lvl, xp, mHP, aHP, utok);
 
     // 4. MINI BOSS
-    int mb1 = 100;
+    int mb1 = 50;
     cout << "\n[MB] STRAZCE MOSTU" << endl;
     while (mb1 > 0 && aHP > 0) {
-        aHP -= 10; cout << "Troll te prastil palici jako prvni, PROHRAL JSI!" << endl;
+        aHP -= 10; cout << "Troll te prastil palici jako prvni!" << endl;
         if (aHP <= 0) break;
         status("Troll", mb1, aHP, aMana);
         hradlaMonster("Troll");
@@ -264,36 +264,95 @@ int main() {
     zkontrolujLevel(lvl, xp, mHP, aHP, utok);
 
     // 5. FINAL BOSS: PYROCOIL
-    int hb = 600; int k = 1; int horeni = 0;
-    cout << "\n!!! [HB] FINALNI SOUBOJ: PYROCOIL !!!" << endl;
+    // Sníženo HP bosse z 600 na 280
+    int hb = 280;
+    int k = 1;
+    int horeni = 0;
+
+    cout << "\n========================================================================" << endl;
+    cout << "!!! [HB] OHNIVE DOUPĚ - FINALNI SOUBOJ ZE SMRTI !!!" << endl;
+    cout << "Vstoupil jsi do obri jeskyne plne lavy. Ze stropu visi krystaly a na hromade" << endl;
+    cout << "zlata odpociva pan ohne - obrovsky cerveny drak PYROCOIL." << endl;
+    cout << "Kdyz te uvidia jeho zlute oci, jeskyni prořízne hruzny rev a vzduch zacne horet!" << endl;
+    cout << "========================================================================" << endl;
+
     while (hb > 0 && aHP > 0) {
-        cout << "\nKolo: " << k;
-        int dmgBosse = 15;
-        if (horeni > 0) dmgBosse += 3;
-        else { horeni = 2; dmgBosse += 2; }
+        cout << "\n========================================" << endl;
+        cout << "KOLO BOJE: " << k;
+        if (horeni > 0) cout << " | VÝSTRAHA: Horis jeste " << horeni << " kola!";
+        cout << "\n========================================" << endl;
 
-        aHP -= dmgBosse;
-        cout << "\nPyrocoil te spaluje za " << dmgBosse << "!" << endl;
-
-        if (k % 4 == 0) {
-            cout << "PYROCOIL PRETEKA OHNEM A EXPLOZUDE!" << endl;
-            aHP -= 15; hb -= 20;
+        // Pyrocoil utoci prvni (dračí rychlost)
+        int dmgBosse = 12;
+        if (horeni > 0) {
+            dmgBosse += 3; // Pokud hráč hoří, dává drak o 3 dmg víc
+            cout << "[Spalovani] Plameny na tvem tele se rozhořely víc!" << endl;
+        }
+        else {
+            horeni = 2;
+            dmgBosse += 1;
+            cout << "[Zapaleni] Drak te zasahl ohnivym dechem a zapalil te na 2 kola!" << endl;
         }
 
+        aHP -= dmgBosse;
+        cout << "Pyrocoil utoci svymi pazoury a dechem za " << dmgBosse << " zraneni!" << endl;
+
+        // Mechanika exploze kazde 4. kolo (Drak ublizi hraci, ale i sobe pretlakem many)
+        if (k % 4 == 0) {
+            cout << "\n[!!!] PYROCOIL PRETEKA MAGICKÝM OHNEM A EXPLOZUDE!" << endl;
+            cout << "Tlakova vlna te odmrštila na skálu! Ztracis dalšich 12 HP." << endl;
+            cout << "Exploze vsak poskodila i samotneho draka a ubylo mu 25 HP!" << endl;
+            aHP -= 12;
+            hb -= 25;
+        }
+
+        // Kontrola smrti hrace behem tahu bosse
         if (aHP <= 0) break;
 
-        status("PYROCOIL", hb, aHP, aMana);
+        status("PYROCOIL - PAN LÁVY", hb, aHP, aMana);
         hradlaMonster("PYROCOIL");
-        cout << "1) Utok, 2) Mega Heal(15m): "; cin >> v;
-        if (v == 1) hb -= utok;
-        else if (v == 2 && aMana >= 15) { aHP = secti(aHP, 60); if(aHP > mHP) aHP = mHP; aMana -= 15; }
 
+        // Zvyseno leceni z 60 na 70 HP pro lepsi preziti hrace
+        cout << "Tva akce proti drakovi: 1) Utok zbrani, 2) Mega Bozi Heal (Stoji 15 many, vyleci 70 HP): ";
+        cin >> v;
+
+        if (v == 1) {
+            hb -= utok;
+            cout << "Prosekal jsi se pres dračí šupiny a zpusobil mu " << utok << " poskozeni!" << endl;
+        }
+        else if (v == 2 && aMana >= 15) {
+            aHP = secti(aHP, 70);
+            if(aHP > mHP) aHP = mHP;
+            aMana -= 15;
+            cout << ">>> Svaté svetlo te obklopilo. Vyleceno masivnich 70 HP! Plameny zhasínají." << endl;
+            horeni = 0; // Bozi heal uhasi horeni
+        }
+        else if (v == 2 && aMana < 15) {
+            cout << "Nemas 15 many na Mega Heal! Tvuj krik zanikl v hromu jeskyne a neudelal jsi nic!" << endl;
+        }
+
+        // Odpocet horeni na konci kola
         if (horeni > 0) horeni--;
         k++;
     }
 
-    if (aHP > 0) cout << "\nZVITEZIL JSI NAD PYROCOILEM!" << endl;
-    else cout << "\nZemrel jsi v plamenech..." << endl;
+    // FINALNI GAME OVER NEBO VITEZSTVI
+    if (aHP <= 0) {
+        cout << "\n########################################################################" << endl;
+        cout << " GAME OVER - SHOREL JSI V POPEL" << endl;
+        cout << " Pyrocoil te spalil na prach svym nejvetsim ohnivym chřtánem. Tve brneni" << endl;
+        cout << " se roztavilo a zbyly z tebe jen uhliky. Svet upadl do vecne temnoty draka." << endl;
+        cout << "########################################################################" << endl;
+    }
+    else {
+        cout << "\n========================================================================" << endl;
+        cout << " !!! VITEZSTVI !!! " << endl;
+        cout << " Pyrocoil s hroznym zarvem padl k zemi, lava v jeskyni ztuhla v kamen." << endl;
+        cout << " Zachranil jsi kralovstvi Ignis a tve jmeno bude navzdy zapsano v kronikach" << endl;
+        cout << " jako jmeno Nejvetsiho Hrdiny všech dob!" << endl;
+        cout << "========================================================================" << endl;
+    }
 
+    cout << "\nDekujeme za odehrani hry Legenda o ohnivem drakovi. Stiskni Enter pro konec.";
     return 0;
 }
